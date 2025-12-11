@@ -3,6 +3,8 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
+    "start": "react-scripts start",
+
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
