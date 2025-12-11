@@ -1,0 +1,73 @@
+---
+import { Astro } from 'astro';
+
+/* Layout simple */
+const Header = () => (
+  <header class="bg-blue-600 text-white p-4">
+    <nav class="container mx-auto flex justify-between items-center">
+      <a href="/" class="font-bold text-xl">Way Digi Tech</a>
+      <div class="space-x-4">
+        <a href="/à-propos" class="hover:underline">À propos</a>
+        <a href="/contact" class="hover:underline">Contact</a>
+        <a href="/maison" class="hover:underline">Maison</a>
+      </div>
+    </nav>
+  </header>
+);
+
+const Footer = () => (
+  <footer class="bg-gray-800 text-white p-4 mt-auto">
+    <div class="container mx-auto text-center">
+      © {new Date().getFullYear()} Way Digi Tech. Tous droits réservés.
+    </div>
+  </footer>
+);
+
+/* Pour prérendu statique */
+export const prerender = true;
+
+/* Routes dynamiques */
+export async function getStaticPaths() {
+  return [
+    { params: { slug: [""] } },                  
+    { params: { slug: ["contact"] } },           
+    { params: { slug: ["à-propos"] } },          
+    { params: { slug: ["maison"] } },            
+    { params: { slug: ["services", "maçonnerie"] } },      
+    { params: { slug: ["services", "revêtement-sol"] } },  
+  ];
+}
+
+/* Récupère les segments dynamiques de l'URL */
+const slugSegments = Astro.params.slug || [];
+const path = slugSegments.join("/");
+const pageTitle = slugSegments.length 
+  ? slugSegments.map(s => s.replace("-", " ")).join(" - ") 
+  : "Accueil";
+---
+
+<html lang="fr" class="h-full">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{pageTitle}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="flex flex-col min-h-screen font-sans bg-gray-50 text-gray-900">
+    <Header />
+
+    <main class="flex-1 container mx-auto px-4 py-10">
+      <h1 class="text-4xl font-bold mb-6">{pageTitle}</h1>
+      <p class="mb-2">Page : {path || "Accueil"}</p>
+      <p class="mb-4">Segments dynamiques : {slugSegments.join(" / ")}</p>
+
+      <!-- Ici tu peux inclure ton contenu spécifique à chaque page -->
+      {slugSegments.length === 0 && <p>Bienvenue sur la page d'accueil !</p>}
+      {slugSegments.includes("contact") && <p>Formulaire de contact à venir...</p>}
+      {slugSegments.includes("maison") && <p>Informations sur les maisons...</p>}
+      {slugSegments.includes("à-propos") && <p>À propos de Way Digi Tech...</p>}
+    </main>
+
+    <Footer />
+  </body>
+</html>

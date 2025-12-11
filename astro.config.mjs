@@ -13,25 +13,13 @@ const isBuild = process.env.NODE_ENV === "production";
 
 // https://astro.build/config
 export default defineConfig({
-  output: "server",
+  output: "static", // <-- ici on change server -> static
   adapter: vercel(), // Adapter pour Vercel
   integrations: [
-    // React doit être en premier si on utilise JSX
     react({ babel: { plugins: [sourceAttrsPlugin, dynamicDataPlugin] } }),
-
-    // TailwindCSS
     tailwind(),
-
-    // Wix integration
-    wix({
-      htmlEmbeds: isBuild,
-      auth: true
-    }),
-
-    // Monitoring uniquement en production
+    wix({ htmlEmbeds: isBuild, auth: true }),
     isBuild ? monitoring() : null,
-
-    // Framewire pour dev local
     {
       name: "framewire",
       hooks: {
@@ -54,24 +42,11 @@ export default defineConfig({
         },
       },
     },
-  ].filter(Boolean), // supprime les null / undefined
-
+  ].filter(Boolean),
   vite: {
-    plugins: [
-      customErrorOverlayPlugin(),
-    ],
+    plugins: [customErrorOverlayPlugin()],
   },
-
-  devToolbar: {
-    enabled: false,
-  },
-
-  image: {
-    domains: ["static.wixstatic.com"],
-  },
-
-  server: {
-    allowedHosts: true,
-    host: true,
-  },
+  devToolbar: { enabled: false },
+  image: { domains: ["static.wixstatic.com"] },
+  server: { allowedHosts: true, host: true },
 });
