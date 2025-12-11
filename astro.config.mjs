@@ -1,20 +1,37 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
-import cloudProviderFetchAdapter from "@wix/cloud-provider-fetch-adapter";
 import wix from "@wix/astro";
 import monitoring from "@wix/monitoring-astro";
 import react from "@astrojs/react";
+import vercel from "@astrojs/vercel";
 import sourceAttrsPlugin from "@wix/babel-plugin-jsx-source-attrs";
 import dynamicDataPlugin from "@wix/babel-plugin-jsx-dynamic-data";
 import customErrorOverlayPlugin from "./vite-error-overlay-plugin.js";
 
-const isBuild = process.env.NODE_ENV == "production";
+const isBuild = process.env.NODE_ENV === "production";
 
 // https://astro.build/config
 export default defineConfig({
   output: "server",
+  adapter: vercel(), // Adapter pour Vercel
   integrations: [
+    // React doit être en premier si on utilise JSX
+    react({ babel: { plugins: [sourceAttrsPlugin, dynamicDataPlugin] } }),
+
+    // TailwindCSS
+    tailwind(),
+
+    // Wix integration
+    wix({
+      htmlEmbeds: isBuild,
+      auth: true
+    }),
+
+    // Monitoring uniquement en production
+    isBuild ? monitoring() : null,
+
+    // Framewire pour dev local
     {
       name: "framewire",
       hooks: {
@@ -37,26 +54,22 @@ export default defineConfig({
         },
       },
     },
-    tailwind(),
-    wix({
-      htmlEmbeds: isBuild,
-      auth: true
-    }),
-    isBuild ? monitoring() : undefined,
-    react({ babel: { plugins: [sourceAttrsPlugin, dynamicDataPlugin] } }),
-  ],
+  ].filter(Boolean), // supprime les null / undefined
+
   vite: {
     plugins: [
       customErrorOverlayPlugin(),
     ],
   },
-  adapter: isBuild ? cloudProviderFetchAdapter({}) : undefined,
+
   devToolbar: {
     enabled: false,
   },
+
   image: {
     domains: ["static.wixstatic.com"],
   },
+
   server: {
     allowedHosts: true,
     host: true,
