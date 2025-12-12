@@ -144,4 +144,5 @@ For support and questions:
 
 ---
 
-Built with ❤️ using Wix Vibe, Astro, and modern web technologies.
+Built with ❤️ using Astro and Tailwind CSS
+
