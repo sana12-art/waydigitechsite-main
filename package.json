@@ -55,6 +55,7 @@
     "@wix/members": "^1.0.382",
     "@wix/monitoring-astro": "^2.7.0",
     "@wix/seo": "^1.0.31",
+    "@wix/stores": "^1.0.581",
     "@wix/wix-vibe-plugins": "^0.0.7",
     "class-variance-authority": "^0.7.1",
     "cmdk": "^1.1.1",
