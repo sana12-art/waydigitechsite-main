@@ -3,13 +3,13 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-  "dev": "astro dev",
-  "build": "astro build",
-  "preview": "astro preview",
-  "check": "npx astro check --js-only",
-  "vercel-build": "npm run build"
-},
-
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "npx astro check --js-only",
+    "vercel-build": "npm run build",
+    "start": "astro preview --port $PORT"
+  },
   "engines": {
     "node": ">=18"
   },
@@ -44,6 +44,7 @@
     "@radix-ui/react-toggle-group": "^1.1.11",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@react-hook/resize-observer": "^2.0.2",
+    "@react-leaflet/core": "^2.1.0",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/typography": "^0.5.15",
     "@tailwindcss/vite": "^4.0.13",
@@ -64,7 +65,7 @@
     "react-day-picker": "^9.12.0",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.68.0",
-    "react-leaflet": "^5.0.0",
+    "react-leaflet": "^4.2.1",
     "react-router": "^7.10.1",
     "react-router-dom": "^7.10.1",
     "tailwind-merge": "^3.4.0",
