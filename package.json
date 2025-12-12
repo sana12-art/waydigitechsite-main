@@ -3,13 +3,13 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "start": "react-scripts start",
+  "dev": "astro dev",
+  "build": "astro build",
+  "preview": "astro preview",
+  "check": "npx astro check --js-only",
+  "vercel-build": "npm run build"
+},
 
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "check": "npx astro check --js-only"
-  },
   "engines": {
     "node": ">=18"
   },
